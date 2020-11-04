@@ -1,19 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SparkAuto5.Data;
 using SparkAuto5.Models;
-using SparkAuto5.Utility;
 
-namespace SparkAuto5.Pages.ServiceTypes
+namespace SparkAuto5.Pages.Cars
 {
-    [Authorize(Roles = SD.AdminEndUser)]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _db;
@@ -24,7 +20,7 @@ namespace SparkAuto5.Pages.ServiceTypes
         }
 
         [BindProperty]
-        public ServiceType ServiceType { get; set; }
+        public Car Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -33,9 +29,9 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            Car = await _db.Car.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceType is null)
+            if (Car is null)
             {
                 return NotFound();
             }
@@ -51,9 +47,14 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return Page();
             }
 
-            var serviceFromDb = await _db.ServiceType.FirstOrDefaultAsync(s => s.Id == ServiceType.Id);
-            serviceFromDb.Name = ServiceType.Name;
-            serviceFromDb.Price = ServiceType.Price;
+            var carFromDb = await _db.Car.FirstOrDefaultAsync(s => s.Id == Car.Id);
+            carFromDb.VIN = Car.VIN;
+            carFromDb.Make = Car.Make;
+            carFromDb.Model = Car.Model;
+            carFromDb.Style = Car.Style;
+            carFromDb.Year = Car.Year;
+            carFromDb.Kilometers = Car.Kilometers;
+            carFromDb.Color = Car.Color;
             await _db.SaveChangesAsync();
 
             return RedirectToPage("Index");

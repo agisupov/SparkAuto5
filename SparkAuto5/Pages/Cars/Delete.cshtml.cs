@@ -1,18 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SparkAuto5.Data;
 using SparkAuto5.Models;
-using SparkAuto5.Utility;
 
-namespace SparkAuto5.Pages.ServiceTypes
+namespace SparkAuto5.Pages.Cars
 {
-    [Authorize(Roles = SD.AdminEndUser)]
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _db;
@@ -23,7 +20,7 @@ namespace SparkAuto5.Pages.ServiceTypes
         }
 
         [BindProperty]
-        public ServiceType ServiceType { get; set; }
+        public Car Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,9 +29,9 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            Car = await _db.Car.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceType is null)
+            if (Car is null)
             {
                 return NotFound();
             }
@@ -48,11 +45,11 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FindAsync(id);
+            Car = await _db.Car.FindAsync(id);
 
-            if (ServiceType is not null)
+            if (Car is not null)
             {
-                _db.ServiceType.Remove(ServiceType);
+                _db.Car.Remove(Car);
                 await _db.SaveChangesAsync();
             }
 

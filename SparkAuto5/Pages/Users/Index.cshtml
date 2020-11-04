@@ -77,7 +77,11 @@
                         <td>
                             @Html.DisplayFor(m => item.Email)
                         </td>
-                        <td></td>
+                        <td>
+                            <a asp-page="../Cars/Index" asp-route-userId="@item.Id" style="text-decoration: none;">
+                                <img src="~/images/baby-car.png" width="40"/> &nbsp; View Cars
+                            </a>
+                        </td>
                         <td style="width:150px;">
                             <div class="btn-group" role="group">
                                 <a class="btn btn-primary text-white" asp-page="Edit" asp-route-ID="@item.Id">
@@ -89,6 +93,7 @@
                             </div>
                         </td>
                     </tr>
+                }
                     <tr>
                         <td colspan="5" class="text-right">
                             <div page-model="@Model.UsersListVM.PagingInfo" asp-action="Index" page-class="btn border"
@@ -96,7 +101,6 @@
                             </div>
                         </td>
                     </tr>
-                }
             </table>
         }
     </div>

@@ -52,7 +52,6 @@ namespace SparkAuto5.Pages.Users
 
             var applicationUserFromDb = await _db.ApplicationUser.FirstOrDefaultAsync(s => s.Id == ApplicationUser.Id);
             applicationUserFromDb.Name = ApplicationUser.Name;
-            applicationUserFromDb.Email = ApplicationUser.Email;
             applicationUserFromDb.PhoneNumber = ApplicationUser.PhoneNumber;
             applicationUserFromDb.Address = ApplicationUser.Address;
             applicationUserFromDb.City = ApplicationUser.City;

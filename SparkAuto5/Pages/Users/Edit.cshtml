@@ -1,8 +1,6 @@
 ﻿@page
 @model SparkAuto5.Pages.Users.EditModel
 @{
-}
-@{
     ViewData["Title"] = "Edit Customer";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -25,7 +23,7 @@
                  <label asp-for="ApplicationUser.Email"></label>
              </div>
              <div class="col-5">
-                 <input asp-for="ApplicationUser.Email" class="form-control"/>
+                 <input asp-for="ApplicationUser.Email" disabled class="form-control"/>
              </div>
              <span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
          </div>
