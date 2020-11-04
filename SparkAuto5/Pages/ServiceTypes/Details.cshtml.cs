@@ -28,7 +28,7 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.ID == id);
+            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
 
             if (ServiceType == null)
             {

@@ -1,19 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SparkAuto5.Data;
 using SparkAuto5.Models;
 
-namespace SparkAuto5.Pages.ServiceTypes
+namespace SparkAuto5.Pages.Users
 {
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        public readonly ApplicationDbContext _db;
 
         public EditModel(ApplicationDbContext db)
         {
@@ -21,18 +20,18 @@ namespace SparkAuto5.Pages.ServiceTypes
         }
 
         [BindProperty]
-        public ServiceType ServiceType { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceType == null)
+            if (ApplicationUser is null)
             {
                 return NotFound();
             }
@@ -48,9 +47,13 @@ namespace SparkAuto5.Pages.ServiceTypes
                 return Page();
             }
 
-            var serviceFromDb = await _db.ServiceType.FirstOrDefaultAsync(s => s.Id == ServiceType.Id);
-            serviceFromDb.Name = ServiceType.Name;
-            serviceFromDb.Price = ServiceType.Price;
+            var applicationUserFromDb = await _db.ApplicationUser.FirstOrDefaultAsync(s => s.Id == ApplicationUser.Id);
+            applicationUserFromDb.Name = ApplicationUser.Name;
+            applicationUserFromDb.Email = ApplicationUser.Email;
+            applicationUserFromDb.PhoneNumber = ApplicationUser.PhoneNumber;
+            applicationUserFromDb.Address = ApplicationUser.Address;
+            applicationUserFromDb.City = ApplicationUser.City;
+            applicationUserFromDb.PostalCode = ApplicationUser.PostalCode;
             await _db.SaveChangesAsync();
 
             return RedirectToPage("Index");

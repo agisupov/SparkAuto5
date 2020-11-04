@@ -2,7 +2,7 @@
 @model SparkAuto5.Pages.ServiceTypes.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Service Type";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +12,7 @@
 
  <form method="post">
      <div class="border background-white">
-         <input type="hidden" asp-for="ServiceType.ID" />
+         <input type="hidden" asp-for="ServiceType.Id" />
          <div class="form-group row">
              <div class="col-2">
                  <label asp-for="ServiceType.Name"></label>

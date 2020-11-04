@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using SparkAuto5.Data;
 using SparkAuto5.Models;
 
-namespace SparkAuto5.Pages.ServiceTypes
+namespace SparkAuto5.Pages.Users
 {
     public class DeleteModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        public readonly ApplicationDbContext _db;
 
         public DeleteModel(ApplicationDbContext db)
         {
@@ -20,36 +20,35 @@ namespace SparkAuto5.Pages.ServiceTypes
         }
 
         [BindProperty]
-        public ServiceType ServiceType { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public ApplicationUser ApplicationUser { get; set; }
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceType == null)
+            if (ApplicationUser == null)
             {
                 return NotFound();
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
             if (id is null)
             {
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FindAsync(id);
+            ApplicationUser = await _db.ApplicationUser.FindAsync(id);
 
-            if (ServiceType is not null)
+            if (ApplicationUser is not null)
             {
-                _db.ServiceType.Remove(ServiceType);
+                _db.ApplicationUser.Remove(ApplicationUser);
                 await _db.SaveChangesAsync();
             }
 
