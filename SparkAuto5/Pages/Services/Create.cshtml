@@ -1,0 +1,162 @@
+﻿@page
+@model SparkAuto5.Pages.Services.CreateModel
+@{
+    ViewData["Title"] = "Add Service";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container pt-4 pb-2 row">
+    <div class="col-6">
+        <h2 class="text-info py-2">Create Service</h2>
+    </div>
+    <div class="col-3 offset-3 text-right py-2">
+        <a asp-page="../Cars/Index" asp-route-userId="@Model.CarServiceViewModel.Car.UserId" class="btn btn-outline-success form-control">
+            Back to List
+        </a>
+    </div>
+</div>
+<div class="container background-white">
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0 row container">
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="far fa-user fa-2x"></i>
+            </div>
+            <div class="col-5">
+                <label class="text-info">@Model.CarServiceViewModel.Car.ApplicationUser.Name</label><br />
+                <label class="text-info">@Model.CarServiceViewModel.Car.ApplicationUser.Email | @Model.CarServiceViewModel.Car.ApplicationUser.PhoneNumber</label><br />
+            </div>
+            <div class="col-5 text-right">
+                <label class="text-info">@Model.CarServiceViewModel.Car.Make @Model.CarServiceViewModel.Car.Model @Model.CarServiceViewModel.Car.Style</label><br />
+                <label class="text-info">@Model.CarServiceViewModel.Car.Year</label>
+            </div>
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="fas fa-car fa-2x"></i>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="post" style="width: 100%">
+                <div class="container">
+                    <input hidden asp-for="CarServiceViewModel.Car.Make" />
+                    <input hidden asp-for="CarServiceViewModel.Car.Model" />
+                    <input hidden asp-for="CarServiceViewModel.Car.VIN" />
+                    <input hidden asp-for="CarServiceViewModel.Car.UserId" />
+                    <input hidden asp-for="CarServiceViewModel.Car.Id" />
+
+                    <div class="border rounded p-2">
+                        <div class="row">
+                            <div class="col-3">
+                                <h4 class="text-info pl-3 pt-2 pb-1">Add Service</h4>
+                            </div>
+                            <div class="col-9 pb-1 pt-2">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <select asp-for="CarServiceViewModel.ServiceDetails.ServiceTypeId"
+                                                asp-items="@(new SelectList(Model.CarServiceViewModel.ServiceTypesList,"Id","Name"))"
+                                                class="form-control"></select>
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" asp-page-handler="AddToCart" class="form-control btn btn-primary">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="border container rounded p-2">
+                        <h3 class="text-info pb-2">Service Summary</h3>
+                        @if (Model.CarServiceViewModel.ServiceShoppingCart.Count == 0)
+                        {
+                        <p>
+                            Nobject service haside been added ydetails Please aaddress a service to bem performed.
+                        </p>
+                        }
+                        else
+                        {
+                        <div class="row mt-3">
+                            <div class="col-7">
+                                <table class="table table-striped border">
+                                    <tr class="table-secondary">
+                                        <th>
+                                            @Html.DisplayNameFor(m => Model.CarServiceViewModel.ServiceTypesList.FirstOrDefault().Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(m => Model.CarServiceViewModel.ServiceTypesList.FirstOrDefault().Price)
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in Model.CarServiceViewModel.ServiceShoppingCart)
+                                        {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(m => item.ServiceType.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.ServiceType.Price)
+                                        </td>
+                                        <td>
+                                            <button type="submit" asp-page-handler="RemoveFromCart" asp-route-serviceTypeId="@item.ServiceTypeId" class="btn btn-danger form-control">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    }
+                                    <tr style="background-color:#e2fee2">
+                                        <td colspan="1">
+                                            <h6 class="text-success">Total Price</h6>
+                                        </td>
+                                        <td colspan="2">
+                                            <h6 class="text-success">$@Model.CarServiceViewModel.ServiceHeader.TotalPrice</h6>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-5 px-4 pb-2">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label asp-for="CarServiceViewModel.ServiceHeader.Kilometers" class="form-control" style="border:none;"></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="CarServiceViewModel.ServiceHeader.Kilometers" id="txtKilometers" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row py-2">
+                                    <div class="col-12">
+                                        <textarea placholder="Comments..." asp-for="CarServiceViewModel.ServiceHeader.Details" class="form-control" style="height:100px">
+                                                                                    
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row p-0">
+                                    <div class="col-12">
+                                        <button class="btn btn-success form-control" onclick="return validateInput()">Service Completed</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function validateInput(){
+            var kilometers = document.getElementById("txtKilometers").value;
+            if (kilometers < 1){
+                swal("Error!", "Kilometers cannot be empty or 0", "error");
+                return false;
+            }
+        }
+    </script>
+}
