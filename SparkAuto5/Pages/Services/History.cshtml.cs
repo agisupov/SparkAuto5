@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -11,6 +12,7 @@ using SparkAuto5.Models;
 
 namespace SparkAuto5.Pages.Services
 {
+    [Authorize]
     public class HistoryModel : PageModel
     {
         private readonly ApplicationDbContext _db;
