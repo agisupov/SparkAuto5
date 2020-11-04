@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SparkAuto5.Data;
 using SparkAuto5.Models;
+using SparkAuto5.Utility;
 
 namespace SparkAuto5.Pages.Users
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class DeleteModel : PageModel
     {
         public readonly ApplicationDbContext _db;
